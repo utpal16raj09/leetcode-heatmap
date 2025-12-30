@@ -1,0 +1,27 @@
+name: LeetCode Heatmap
+
+on:
+  schedule:
+    - cron: "0 0 * * *"   # runs daily
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Generate LeetCode heatmap
+        uses: DenverCoder1/leetcode-heatmap-action@v1
+        with:
+          username: raj_1609utpal
+          output: heatmap.svg
+
+      - name: Commit SVG
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add heatmap.svg
+          git commit -m "Update LeetCode heatmap" || exit 0
+          git push
